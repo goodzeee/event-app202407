@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styles from './SignUpForm.module.scss';
+import { AUTH_URL } from '../../config/host-config';
 
 const EmailInput = () => {
 
@@ -21,15 +22,24 @@ const EmailInput = () => {
   };
 
   // 이메일 검증 후속 처리
-  const checkEmail = (email) => {
+  const checkEmail = async(email) => {
     if (!emailVaild) {
         // 이메일이 유효하지 않다면 에러메시지 세팅
         setError('이메일 형식이 유효하지 않습니다.');
         return;
     }
 
-    // 유효하다면 다음 단계인 중복 검사
-
+    // 이메일이 유효하다면 다음 단계인 중복 검사
+    if (emailVaild) {
+    const response = await fetch(`${AUTH_URL}/check-email?email=${email}`);
+    // console.log('res: ', response);
+    const flag = await response.json();
+    // console.log('flag: ' , flag);
+    if (flag) {
+        setEmailValid(false);
+        setError('이메일이 중복되었습니다.');
+    }
+    }
   };
 
   const changeHandler = e => {
@@ -41,7 +51,7 @@ const EmailInput = () => {
     setEmailValid(isVaild);
 
     // 이메일 검증 후속처리 - 이메일이 유효하지 않을 때
-    checkEmail();
+    checkEmail(email);
   };
 
   // 렌더링 되자마자 입력창에 포커싱
