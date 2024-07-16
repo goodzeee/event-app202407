@@ -1,13 +1,29 @@
 import React from 'react';
+import { Form, useRouteLoaderData } from 'react-router-dom';
 
 const Main = () => {
+
+const {role, email} = useRouteLoaderData('user-data');
+
   return (
     <>
-      <h2>xxx님 환영합니다.</h2>
-      <h3>현재 권한: [ VIP ]</h3>
-      <button>Logout</button>
+      <h2>{email}님 환영합니다.</h2>
+      <h3>현재 권한: [ {role} ]</h3>
+      {/* 다른 라우트의 액션을 트리거하는 방법 - route-config에 로그아웃 action 경로 적어주면 발동됨 !*/}
+      <Form method='POST' action='/logout'>  
+         <button>Logout</button>
+      </Form>
     </>
   );
 };
 
 export default Main;
+
+export const loginAction = async ( {request} ) => {
+
+    const formData = await request.formData();
+    
+    const payload = {
+        role: formData.get('role')
+    };
+}

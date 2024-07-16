@@ -1,8 +1,13 @@
 import React from 'react'
 import MainNavigation from './MainNavigation'
 import { Outlet } from 'react-router-dom'
+import { userDataLoader } from '../config/auth';
 
 const RootLayout = () => {
+
+  // const data = userDataLoader();
+  // console.log('data: ', data);
+
   return (
     <>
       <MainNavigation />
