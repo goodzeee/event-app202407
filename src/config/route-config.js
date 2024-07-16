@@ -17,11 +17,11 @@ import { action as manipulateAction }
 import WelcomePage from '../pages/WelcomePage';
 import SignUpPage from '../pages/SignUpPage';
 import { loginAction } from '../components/auth/LoginForm';
-import { userDataLoader } from './auth';
+import { authCheckLoader, userDataLoader } from './auth';
 import { logoutAction } from '../pages/Logout';
 
 
-// 라우터 설정
+// 라우터 설정 - 목록
 const eventsRouter = [
   { 
     index: true, 
@@ -88,6 +88,7 @@ export const router = createBrowserRouter([
       {
         path: 'events',
         element: <EventLayout />,
+        loader: authCheckLoader,
         children: eventsRouter
       },
     ]
