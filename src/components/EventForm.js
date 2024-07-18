@@ -141,6 +141,7 @@ const EventForm = ({ method, event = {} }) => {
 export default EventForm;
 
 
+
 // 서버에 갱신요청을 보내는 트리거함수
 // App.js에서 router에 설정
 export const action = async ({ request, params }) => {
@@ -177,6 +178,14 @@ export const action = async ({ request, params }) => {
     },
     body: JSON.stringify(payload),
   });
+
+  if (
+    request.method === 'POST'
+    && response.status === 401
+  ) {
+      const errorText = await response.text();
+      alert(errorText);
+  }
 
   return redirect('/events');
 
